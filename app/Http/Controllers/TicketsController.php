@@ -51,7 +51,7 @@ class TicketsController extends Controller
             'Attachments' => $request->get('Attachments')
         ]);
         $Tickets->save();
-        return redirect('/tickets')->with('success', 'Tickets saved!');
+        return redirect('/tickets')->with('success', 'TicketsResource saved!');
     }
 
     /**
@@ -97,7 +97,7 @@ class TicketsController extends Controller
         $tickets->Attachments = $request->get('Attachments');
         $tickets->save();
 
-        return redirect('/tickets')->with('success', 'Tickets updated!');
+        return redirect('/tickets')->with('success', 'TicketsResource updated!');
     }
 
     /**
@@ -111,6 +111,6 @@ class TicketsController extends Controller
         $tickets = Tickets::find($id);
         $tickets->delete();
 
-        return redirect('/tickets')->with('success', 'Tickets deleted!');
+        return redirect('/tickets')->with('success', 'TicketsResource deleted!');
     }
 }

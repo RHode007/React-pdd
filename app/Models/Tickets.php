@@ -16,5 +16,9 @@ class Tickets extends Model
         'Attachments'
     ];
 
+    public function ticketAnswers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TicketAnswer::class, 'idTicket', 'id');
+    }
 
 }

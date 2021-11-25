@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketsController;
 /*
@@ -16,10 +17,14 @@ use App\Http\Controllers\TicketsController;
 Route::get('/', function () {
     return view('welcome');
 });
+/*
+Route::get('/users', function (Request $request) {
+    return User::paginate(10);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::resource('tickets', TicketsController::class)->middleware(['auth']);
+Route::resource('tickets', TicketsController::class)->middleware(['auth']);*/
