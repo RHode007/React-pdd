@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketsController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,4 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('tickets', TicketsController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+Route::resource('tickets', TicketsController::class)->middleware(['auth']);
