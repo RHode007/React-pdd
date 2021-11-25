@@ -84,19 +84,19 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'Text'=>'required',
             'Status'=>'required',
         ]);
 
-        $tickets= new Tickets([
-            'Text' => $request->get('Text'),
-            'Status' => $request->get('Status'),
-            'Attachments' => $request->get('Attachments')
-        ]);
+        $tickets = Tickets::find($id);
+        $tickets->Text =  $request->get('Text');
+        $tickets->Status = $request->get('Status');
+        $tickets->Attachments = $request->get('Attachments');
         $tickets->save();
+
         return redirect('/tickets')->with('success', 'Tickets updated!');
     }
 
@@ -108,6 +108,9 @@ class TicketsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tickets = Tickets::find($id);
+        $tickets->delete();
+
+        return redirect('/tickets')->with('success', 'Tickets deleted!');
     }
 }
