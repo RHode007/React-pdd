@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Http\Controllers\Http\TicketsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TicketsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +17,7 @@ use App\Http\Controllers\TicketsController;
 Route::get('/', function () {
     return view('welcome');
 });
-/*
+
 Route::get('/users', function (Request $request) {
     return User::paginate(10);
 });
@@ -27,4 +27,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::resource('tickets', TicketsController::class)->middleware(['auth']);*/
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Http'], function () {
+
+    Route::resource('tickets', 'TicketsController');
+});

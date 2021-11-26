@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Http;
 
+use App\Http\Controllers\Controller;
 use App\Models\Tickets;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
