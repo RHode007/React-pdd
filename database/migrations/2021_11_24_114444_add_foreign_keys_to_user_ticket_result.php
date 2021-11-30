@@ -14,9 +14,9 @@ class AddForeignKeysToUserTicketResult extends Migration
     public function up()
     {
         Schema::table('user_ticket_result', function (Blueprint $table) {
-            $table->foreign('idUser')->references('id')->on('users');
-            $table->foreign('idTicket')->references('id')->on('tickets');
-            $table->foreign('idAnswer')->references('id')->on('tickets_answers');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->foreign('answer_id')->references('id')->on('tickets_answers');
         });
     }
 
@@ -28,9 +28,9 @@ class AddForeignKeysToUserTicketResult extends Migration
     public function down()
     {
         Schema::table('user_ticket_result', function (Blueprint $table) {
-            $table->dropForeign(['idUser']);
-            $table->dropForeign(['idTicket']);
-            $table->dropForeign(['idAnswer']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['ticket_id']);
+            $table->dropForeign(['answer_id']);
         });
     }
 }

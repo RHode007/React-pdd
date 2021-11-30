@@ -20,6 +20,7 @@ class TicketsController extends Controller
     public function index()
     {
         $tickets = Tickets::all();
+
         return view('tickets.index', compact('tickets'));
     }
 
@@ -42,16 +43,17 @@ class TicketsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Text'=>'required',
-            'Status'=>'required',
+            'text'=>'required',
+            'status'=>'required',
         ]);
 
-        $Tickets= new Tickets([
-            'Text' => $request->get('Text'),
-            'Status' => $request->get('Status'),
-            'Attachments' => $request->get('Attachments')
+        $tickets = new Tickets([
+            'text' => $request->get('text'),
+            'status' => $request->get('status'),
+            'attachments' => $request->get('attachments')
         ]);
-        $Tickets->save();
+        $tickets->save();
+
         return redirect('/tickets')->with('success', 'TicketsResource saved!');
     }
 
@@ -75,6 +77,7 @@ class TicketsController extends Controller
     public function edit($id)
     {
         $tickets = Tickets::find($id);
+
         return view('tickets.edit', compact('tickets'));
     }
 
@@ -88,14 +91,14 @@ class TicketsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Text'=>'required',
-            'Status'=>'required',
+            'text'=>'required',
+            'status'=>'required',
         ]);
 
         $tickets = Tickets::find($id);
-        $tickets->Text =  $request->get('Text');
-        $tickets->Status = $request->get('Status');
-        $tickets->Attachments = $request->get('Attachments');
+        $tickets->text =  $request->get('text');
+        $tickets->status = $request->get('status');
+        $tickets->attachments = $request->get('attachments');
         $tickets->save();
 
         return redirect('/tickets')->with('success', 'TicketsResource updated!');

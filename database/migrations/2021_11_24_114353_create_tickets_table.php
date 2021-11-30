@@ -15,9 +15,9 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->mediumText('Text');
-            $table->boolean('Status')->default(0);
-            $table->string('Attachments', 255)->nullable();
+            $table->mediumText('text');
+            $table->boolean('status')->default(0);
+            $table->string('attachments', 255)->nullable();
             $table->timestamps();
         });
     }

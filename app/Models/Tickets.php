@@ -11,14 +11,14 @@ class Tickets extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Text',
-        'Status',
-        'Attachments'
+        'text',
+        'status',
+        'attachments'
     ];
 
     public function ticketAnswers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(TicketAnswer::class, 'idTicket', 'id');
+        return $this->hasMany(TicketAnswer::class, 'ticket_id', 'id');
     }
 
 }

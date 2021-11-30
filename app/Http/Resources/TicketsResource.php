@@ -16,9 +16,9 @@ class TicketsResource extends JsonResource
     {
         return [
             'id'         => $this->id,
-            'Text'       => $this->Text,
-            'Status'    => (int) $this->Status,
-            'Attachments'     => $this->Attachments
+            'text'       => $this->text,
+            'status'     => (int) $this->status,
+            'attachments'=> $this->attachments
         ];
     }
 }

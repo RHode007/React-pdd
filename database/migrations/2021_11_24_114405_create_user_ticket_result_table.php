@@ -15,9 +15,9 @@ class CreateUserTicketResultTable extends Migration
     {
         Schema::create('user_ticket_result', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idTicket');
-            $table->unsignedBigInteger('idAnswer');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('ticket_id');
+            $table->unsignedBigInteger('answer_id');
             $table->timestamps();
         });
     }

@@ -15,10 +15,10 @@ class CreateTicketsAnswersTable extends Migration
     {
         Schema::create('tickets_answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idTicket');
-            $table->string('Text',255);
-            $table->boolean('isTrue');
-            $table->string('Attachment',255)->nullable();
+            $table->unsignedBigInteger('ticket_id');
+            $table->string('text',255);
+            $table->boolean('is_true');
+            $table->string('attachment',255)->nullable();
             $table->timestamps();
         });
     }

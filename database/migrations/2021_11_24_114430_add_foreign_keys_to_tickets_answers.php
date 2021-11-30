@@ -14,7 +14,7 @@ class AddForeignKeysToTicketsAnswers extends Migration
     public function up()
     {
         Schema::table('tickets_answers', function (Blueprint $table) {
-            $table->foreign('idTicket')->references('id')->on('tickets');
+            $table->foreign('ticket_id')->references('id')->on('tickets');
         });
     }
 
@@ -26,7 +26,7 @@ class AddForeignKeysToTicketsAnswers extends Migration
     public function down()
     {
         Schema::table('tickets_answers', function (Blueprint $table) {
-            $table->dropForeign(['idTicket']);
+            $table->dropForeign(['ticket_id']);
         });
     }
 }
