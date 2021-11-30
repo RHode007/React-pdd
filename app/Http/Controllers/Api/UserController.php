@@ -79,10 +79,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {
-        //
+        $user1 = User::findOrFail($user->id);
+        $user1->delete();
+
+        return response()->json(null, 204);
     }
 }

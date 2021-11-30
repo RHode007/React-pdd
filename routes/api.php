@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TicketsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,17 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    $token = $request->user()->createToken($request->token_name);
-
-    return ['token' => $token->plainTextToken];
-    //return $request->user();
+Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
+    Route::post('/login', [AuthController::class, 'loginUser']);
+    //Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
 });
 
-Route::post('/tokens/create', function (Request $request) {
-    $token = $request->user()->createToken($request->token_name);
+Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'Api'], function () {
 
-    return ['token' => $token->plainTextToken];
+    Route::get('/user1', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
+    Route::resource('/user', 'UserController', ['only' => ['index', 'show']]);
 });
 
 //TODO tickets/index->login->dashboard(HOME)
@@ -36,8 +39,3 @@ Route::post('/tokens/create', function (Request $request) {
 //Route::delete('/tickets/{id}', [TicketsController::class, 'delete']);
 //Route::delete('/tickets/{id}/answers', [TicketsController::class, 'resetAnswers']);
 
-
-Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
-
-    Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
-});
