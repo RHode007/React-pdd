@@ -30,5 +30,5 @@ require __DIR__.'/auth.php';
 
 Route::group(['middleware' => 'auth', 'namespace' => 'Http'], function () {
 
-    Route::resource('tickets', 'TicketsController');
+    //Route::resource('tickets', 'TicketsController');
 });

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TicketsController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,19 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
+Route::group(['middleware' => 'auth:api'], function () { //TODO remove api_token?
     Route::post('/login', [AuthController::class, 'loginUser']);
+    Route::post('/register', [AuthController::class, 'registerUser']);
     //Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
 });
 
-Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'Api'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    Route::get('/user1', function (Request $request) {
-        return $request->user();
-    });
-
-    Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
-    Route::resource('/user', 'UserController', ['only' => ['index', 'show']]);
+    Route::apiResources([
+        'tickets' => TicketsController::class,
+        'user' => UserController::class,
+    ]);
+    //Route::resource('/tickets', 'TicketsController', ['only' => ['index', 'show']]);
+    //Route::resource('/user', 'UserController');
 });
 
 //TODO tickets/index->login->dashboard(HOME)
