@@ -5,6 +5,11 @@ namespace App\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
 
+/**
+ * @property string name
+ * @property string email
+ * @property string password
+ */
 class UpdateUserRequest extends FormRequest
 {
     /**

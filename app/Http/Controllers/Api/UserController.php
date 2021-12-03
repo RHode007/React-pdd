@@ -40,10 +40,10 @@ class UserController extends Controller
         ]);
         $user->tokens()->delete();
         $token = $user->createToken($request->device_name)->plainTextToken;
-        $response = [
+        /*$response = [
             'user' => $user,
             'token' => $token
-        ];
+        ];*/
         return (new UserResource($user))->response()->setStatusCode(201);
         //return response($response, 201);
     }
@@ -69,11 +69,15 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $u = User::find($user->id);
+        //if (str == null||str) {generate new token};
+        if ($request->api_token === (null ? 'null' : $request->api_token)) {
+            $request['api_token'] = Str::random(60);
+        }
         $u->update($request->all());
 
-        $response = [
+        /*$response = [
             'user' => $u
-        ];
+        ];*/
 
         return (new UserResource($u))->response()->setStatusCode(201);
         //return response($response, 201);
