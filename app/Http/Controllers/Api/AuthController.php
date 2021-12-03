@@ -3,19 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Requests\Api\AuthRequest;
 use App\Http\Requests\Api\StoreUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
 {
     // Sanctum login API
-    public function loginUser(AuthRequest $request) //TODO snakecase?
+    public function loginUser(AuthRequest $request)
     {
         $request->validate([
             'login' => 'required',
@@ -23,7 +19,7 @@ class AuthController extends Controller
             'device_name' => 'required',
         ]);
 
-        $user= User::where('name', $request->login)
+        $user = User::where('name', $request->login)
             ->orWhere('email', $request->login)
             ->first();
         // match by username or email
@@ -45,7 +41,7 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function registerUser(StoreUserRequest $request) //TODO snakecase?
+    public function registerUser(StoreUserRequest $request)
     {
         $user = new UserController();
         return response($user->store($request), 201);

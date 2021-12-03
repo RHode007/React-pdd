@@ -5,20 +5,38 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketsResource;
 use App\Models\Tickets;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         return response()->json(Tickets::all());
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param $id
+     * @return TicketsResource
+     */
+    public function show($id): TicketsResource
     {
         return new TicketsResource(Tickets::findOrFail($id));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse|object
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -32,6 +50,11 @@ class TicketsController extends Controller
             ->setStatusCode(201);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return TicketsResource
+     */
     public function answer($id, Request $request) //TODO rewrite
     {
         $request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
@@ -49,7 +72,13 @@ class TicketsController extends Controller
         return new TicketsResource($tickets);
     }
 
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    public function delete($id): JsonResponse
     {
         $tickets = Tickets::findOrFail($id);
         $tickets->delete();
@@ -57,7 +86,13 @@ class TicketsController extends Controller
         return response()->json(null, 204);
     }
 
-    public function resetAnswers($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return TicketsResource
+     */
+    public function resetAnswers($id): TicketsResource
     {
         $tickets = Tickets::findOrFail($id);
         $tickets->answers = 0;
