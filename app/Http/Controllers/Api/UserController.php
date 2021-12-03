@@ -28,9 +28,9 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreUserRequest $request
-     * @return Response
+     * @return JsonResponse|object
      */
-    public function store(StoreUserRequest $request): Response
+    public function store(StoreUserRequest $request)
     {
         $user = User::create([
             'name' => $request->name,
@@ -44,8 +44,8 @@ class UserController extends Controller
             'user' => $user,
             'token' => $token
         ];
-
-        return response($response, 201);
+        return (new UserResource($user))->response()->setStatusCode(201);
+        //return response($response, 201);
     }
 
     /**
@@ -64,18 +64,19 @@ class UserController extends Controller
      *
      * @param UpdateUserRequest $request
      * @param User $user
-     * @return Response
+     * @return JsonResponse|object
      */
-    public function update(UpdateUserRequest $request, User $user): Response
+    public function update(UpdateUserRequest $request, User $user)
     {
         $u = User::find($user->id);
         $u->update($request->all());
 
         $response = [
-            'user' => $user
+            'user' => $u
         ];
 
-        return response($response, 201);
+        return (new UserResource($u))->response()->setStatusCode(201);
+        //return response($response, 201);
     }
 
     /**

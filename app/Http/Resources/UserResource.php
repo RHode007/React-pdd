@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends JsonResource
 {
@@ -19,13 +20,12 @@ class UserResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name,
             'email'      => $this->email,
-            'email_verified_at'    => $this->email_verified_at,
-            'password'   => $this->password,
+            'email_verified_at'    => $this->when(Auth::user()->isAdminOrCreator($this->id),$this->email_verified_at),
+            'password'   => $this->when(Auth::user()->isAdminOrCreator($this->id),$this->password),
             'status'     => $this->status,
-            'api_key'    => $this->api_key,
-            'reset_key'  => $this->reset_key,
-            'remember_token'       => $this->remember_token
-
+            'api_token'  => $this->when(Auth::user()->isAdminOrCreator($this->id),$this->api_token),
+            'reset_key'  => $this->when(Auth::user()->isAdminOrCreator($this->id),$this->reset_key),
+            'remember_token'       => $this->when(Auth::user()->isAdminOrCreator($this->id),$this->remember_token)
         ];
     }
 }
