@@ -13,12 +13,6 @@ class AuthController extends Controller
     // Sanctum login API
     public function loginUser(AuthRequest $request)
     {
-        $request->validate([
-            'login' => 'required',
-            'password' => 'required',
-            'device_name' => 'required',
-        ]);
-
         $user = User::where('name', $request->login)
             ->orWhere('email', $request->login)
             ->first();
@@ -44,6 +38,6 @@ class AuthController extends Controller
     public function registerUser(StoreUserRequest $request)
     {
         $user = new UserController();
-        return response($user->store($request), 201);
+        return $user->store($request);
     }
 }

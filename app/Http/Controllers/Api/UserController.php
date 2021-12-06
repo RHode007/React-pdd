@@ -7,10 +7,14 @@ use App\Http\Requests\Api\UpdateUserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Guard;
+use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -32,20 +36,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'api_token' => Str::random(60),
-        ]);
-        $user->tokens()->delete();
-        $token = $user->createToken($request->device_name)->plainTextToken;
-        /*$response = [
-            'user' => $user,
-            'token' => $token
-        ];*/
-        return (new UserResource($user))->response()->setStatusCode(201);
-        //return response($response, 201);
+        $request['password'] = Hash::make($request->password);
+        $request['api_token'] = Str::random(60);
+
+        $u = User::create($request->all());
+        $u->tokens()->delete();
+        $u['token'] = $u->createToken($request->device_name)->plainTextToken;
+
+        return $u;
     }
 
     /**
@@ -74,12 +72,10 @@ class UserController extends Controller
         }
         $u->update($request->all());
 
-        /*$response = [
-            'user' => $u
-        ];*/
+        return (new UserResource($u))
+            ->response()
+            ->setStatusCode(201);
 
-        return (new UserResource($u))->response()->setStatusCode(201);
-        //return response($response, 201);
     }
 
     /**

@@ -16,17 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function () { //TODO remove api_token?
+Route::group([], function () { //TODO remove api_token?
     Route::post('/login', [AuthController::class, 'loginUser']);
     Route::post('/register', [AuthController::class, 'registerUser']);
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    Route::apiResources([
+    /*TODO make logic here
+     * Route::apiResources([
         'tickets' => TicketsController::class,
         'user' => UserController::class,
     ], ['only' => ['index', 'show','update']]);
 
-    Route::apiResource('/tickets', TicketsController::class,['only'=>['update','store']])->middleware('admin');
+    Route::apiResource('/tickets', TicketsController::class,['only'=>['update','store']])->middleware('admin');*/
+
+    Route::apiResources([
+        'tickets' => TicketsController::class,
+        'user' => UserController::class,
+    ]);
 });

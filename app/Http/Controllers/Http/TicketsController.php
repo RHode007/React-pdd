@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Http;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tickets;
+use App\Models\Api\Tickets;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller

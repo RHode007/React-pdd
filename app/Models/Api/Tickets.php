@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Api;
 
+use App\Models\TicketAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,7 +25,7 @@ class Tickets extends Model
 
     public function ticketAnswers(): HasMany
     {
-        return $this->hasMany(TicketAnswer::class, 'ticket_id', 'id');
+        return $this->hasMany(TicketsAnswers::class, 'ticket_id', 'id');
     }
 
 }

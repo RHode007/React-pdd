@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TicketsResource;
-use App\Models\Tickets;
-use App\Models\User;
+use App\Http\Requests\Api\StoreTicketsRequest;
+use App\Http\Resources\Api\TicketsResource;
+use App\Models\Api\Tickets;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -24,7 +24,7 @@ class TicketsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $id
+     * @param Tickets $ticket
      * @return TicketsResource
      */
     public function show(Tickets $ticket): TicketsResource
@@ -35,17 +35,11 @@ class TicketsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreTicketsRequest $request
      * @return JsonResponse|object
      */
-    public function store(Request $request) //TODO StoreRequest
+    public function store(StoreTicketsRequest $request)
     {
-        $request->validate([
-            'text' => 'required|max:255',
-            'status' => 'required|max:255',
-            'attachments' => 'required|max:255',
-        ]);
-
         $ticket = Tickets::create($request->all());
 
         return (new TicketsResource($ticket))
@@ -56,7 +50,7 @@ class TicketsController extends Controller
     /**
      * @param $id
      * @param Request $request
-     * @return TicketsResource
+     * @return \App\Http\Resources\Api\TicketsResource
      */
     public function answer($id, Request $request) //TODO rewrite
     {
@@ -78,7 +72,7 @@ class TicketsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param Tickets $ticket
      * @return JsonResponse
      */
     public function delete(Tickets $ticket): JsonResponse
