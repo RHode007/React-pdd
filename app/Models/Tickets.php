@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property string text
- * @property int status
- * @property string attachments
+ * @property int    $id
+ * @property string $text
+ * @property int    $status
+ * @property string $attachments
  */
 class Tickets extends Model
 {

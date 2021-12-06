@@ -5,6 +5,12 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property int    $id
+ * @property string $text
+ * @property int    $status
+ * @property string $attachments
+ */
 class TicketsResource extends JsonResource
 {
     /**
@@ -18,7 +24,7 @@ class TicketsResource extends JsonResource
         return [
             'id'         => $this->id,
             'text'       => $this->text,
-            'status'     => (int) $this->status,
+            'status'     => $this->status,
             'attachments'=> $this->attachments
         ];
     }

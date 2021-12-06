@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketsResource;
 use App\Models\Tickets;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,9 @@ class TicketsController extends Controller
      * @param $id
      * @return TicketsResource
      */
-    public function show($id): TicketsResource
+    public function show(Tickets $ticket): TicketsResource
     {
-        return new TicketsResource(Tickets::findOrFail($id));
+        return new TicketsResource(Tickets::findOrFail($ticket->id));
     }
 
     /**
@@ -37,15 +38,17 @@ class TicketsController extends Controller
      * @param Request $request
      * @return JsonResponse|object
      */
-    public function store(Request $request)
+    public function store(Request $request) //TODO StoreRequest
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'text' => 'required|max:255',
+            'status' => 'required|max:255',
+            'attachments' => 'required|max:255',
         ]);
 
-        $player = Tickets::create($request->all());
+        $ticket = Tickets::create($request->all());
 
-        return (new TicketsResource($player))
+        return (new TicketsResource($ticket))
             ->response()
             ->setStatusCode(201);
     }
@@ -78,10 +81,9 @@ class TicketsController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function delete($id): JsonResponse
+    public function delete(Tickets $ticket): JsonResponse
     {
-        $tickets = Tickets::findOrFail($id);
-        $tickets->delete();
+        Tickets::findOrFail($ticket->id)->delete();
 
         return response()->json(null, 204);
     }

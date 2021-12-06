@@ -69,8 +69,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $u = User::find($user->id);
-        //if (str == null||str) {generate new token};
-        if ($request->api_token === (null ? 'null' : $request->api_token)) {
+        if ($request->request->has('api_token')) {
             $request['api_token'] = Str::random(60);
         }
         $u->update($request->all());
@@ -91,9 +90,7 @@ class UserController extends Controller
      */
     public function destroy(User $user): JsonResponse
     {
-        $u = User::findOrFail($user->id);
-        $u->delete();
-
+        User::findOrFail($user->id)->delete();
         return response()->json(null, 204);
     }
 }

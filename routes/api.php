@@ -26,5 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
         'tickets' => TicketsController::class,
         'user' => UserController::class,
-    ]);
+    ], ['only' => ['index', 'show','update']]);
+
+    Route::apiResource('/tickets', TicketsController::class,['only'=>['update','store']])->middleware('admin');
 });
