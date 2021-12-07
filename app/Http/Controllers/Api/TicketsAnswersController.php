@@ -31,7 +31,6 @@ class TicketsAnswersController extends Controller
     public function store(StoreTicketsAnswersRequest $request)
     {
         $TicketAnswer = TicketsAnswers::create($request->all());
-
         return (new TicketsAnswersResource($TicketAnswer))
             ->response()
             ->setStatusCode(201);
@@ -43,7 +42,7 @@ class TicketsAnswersController extends Controller
      * @param TicketsAnswers $ticketsAnswers
      * @return TicketsAnswersResource
      */
-    public function show(TicketsAnswers $ticketsAnswers)
+    public function show(TicketsAnswers $ticketsAnswers): TicketsAnswersResource
     {
         return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsAnswers->id));
     }
@@ -70,7 +69,7 @@ class TicketsAnswersController extends Controller
      * @param TicketsAnswers $ticketsAnswers
      * @return JsonResponse
      */
-    public function destroy(TicketsAnswers $ticketsAnswers)
+    public function destroy(TicketsAnswers $ticketsAnswers): JsonResponse
     {
         Tickets::findOrFail($ticketsAnswers->id)->delete();
         return response()->json(null, 204);
