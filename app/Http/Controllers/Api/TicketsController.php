@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTicketsRequest;
+use App\Http\Requests\Api\StoreUserTicketResultRequest;
 use App\Http\Requests\Api\UpdateTicketsRequest;
 use App\Http\Resources\Api\TicketsResource;
 use App\Models\Api\Tickets;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
@@ -66,12 +66,12 @@ class TicketsController extends Controller
 
     /**
      * @param $id
-     * @param Request $request
-     * @return TicketsResource
+     * @param StoreUserTicketResultRequest $request
+     * @return JsonResponse|object
      */
-    public function answer($id, Request $request) //TODO rewrite
+    public function answer(StoreUserTicketResultRequest $request) //TODO rewrite
     {
-        $request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
+        /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
         $request->validate([
             'correct' => 'required|boolean'
         ]);
@@ -83,7 +83,9 @@ class TicketsController extends Controller
             : $tickets->points - 1);
         $tickets->save();
 
-        return new TicketsResource($tickets);
+        return new TicketsResource($tickets);*/
+
+        return (new UserTicketResultController())->store($request);
     }
 
     /**

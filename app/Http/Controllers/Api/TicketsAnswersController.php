@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTicketsAnswersRequest;
 use App\Http\Requests\Api\UpdateTicketsAnswersRequest;
 use App\Http\Resources\Api\TicketsAnswersResource;
-use App\Models\Api\Tickets;
 use App\Models\Api\TicketsAnswers;
 use Illuminate\Http\JsonResponse;
 
@@ -39,24 +38,24 @@ class TicketsAnswersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param TicketsAnswers $ticketsAnswers
+     * @param TicketsAnswers $ticketsanswer
      * @return TicketsAnswersResource
      */
-    public function show(TicketsAnswers $ticketsAnswers): TicketsAnswersResource
+    public function show(TicketsAnswers $ticketsanswer): TicketsAnswersResource
     {
-        return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsAnswers->id));
+        return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsanswer->id));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateTicketsAnswersRequest $request
-     * @param TicketsAnswers $ticketsAnswers
+     * @param TicketsAnswers $ticketsanswer
      * @return JsonResponse|object
      */
-    public function update(UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsAnswers)
+    public function update(UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsanswer)
     {
-        $t = TicketsAnswers::find($ticketsAnswers->id);
+        $t = TicketsAnswers::find($ticketsanswer->id);
         $t->update($request->all());
         return (new TicketsAnswersResource($t))
             ->response()
@@ -66,12 +65,12 @@ class TicketsAnswersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param TicketsAnswers $ticketsAnswers
+     * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse
      */
-    public function destroy(TicketsAnswers $ticketsAnswers): JsonResponse
+    public function destroy(TicketsAnswers $ticketsanswers): JsonResponse
     {
-        Tickets::findOrFail($ticketsAnswers->id)->delete();
+        TicketsAnswers::findOrFail($ticketsanswers->id)->delete();
         return response()->json(null, 204);
     }
 }

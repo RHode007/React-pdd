@@ -39,24 +39,24 @@ class UserTicketResultController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param UserTicketResult $userTicketResult
+     * @param UserTicketResult $userticketresult
      * @return UserTicketResultResource
      */
-    public function show(UserTicketResult $userTicketResult): UserTicketResultResource
+    public function show(UserTicketResult $userticketresult): UserTicketResultResource
     {
-        return new UserTicketResultResource(UserTicketResult::findOrFail($userTicketResult->id));
+        return new UserTicketResultResource(UserTicketResult::findOrFail($userticketresult->id));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateUserTicketResultRequest $request
-     * @param UserTicketResult $userTicketResult
+     * @param UserTicketResult $userticketresult
      * @return JsonResponse|object
      */
-    public function update(UpdateUserTicketResultRequest $request, UserTicketResult $userTicketResult)
+    public function update(UpdateUserTicketResultRequest $request, UserTicketResult $userticketresult)
     {
-        $utr = UserTicketResult::find($userTicketResult->id);
+        $utr = UserTicketResult::find($userticketresult->id);
         $utr->update($request->all());
         return (new UserTicketResultResource($utr))
             ->response()
@@ -66,12 +66,12 @@ class UserTicketResultController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param UserTicketResult $userTicketResult
+     * @param UserTicketResult $userticketresult
      * @return JsonResponse
      */
-    public function destroy(UserTicketResult $userTicketResult)
+    public function destroy(UserTicketResult $userticketresult)
     {
-        UserTicketResult::findOrFail($userTicketResult->id)->delete();
+        UserTicketResult::findOrFail($userticketresult->id)->delete();
         return response()->json(null, 204);
     }
 }

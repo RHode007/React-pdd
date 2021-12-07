@@ -15,6 +15,8 @@ class UserTicketResult extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_ticket_result';
+
     protected $fillable = [
         'user_id',
         'ticket_id',

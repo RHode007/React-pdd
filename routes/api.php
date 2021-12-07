@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TicketsAnswersController;
 use App\Http\Controllers\Api\TicketsController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\UserTicketResultController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,9 +33,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::apiResource('/tickets', TicketsController::class,['only'=>['update','store']])->middleware('admin');*/
 
+    Route::group(['prefix' => 'tickets'], function () {
+        Route::apiResource('answers', TicketsAnswersController::class)->parameter('answers','ticketsanswers');
+        Route::post('/answer', [TicketsController::class, 'answer']);
+    });
+
+    Route::apiResource('/userticketresults','UserTicketResultController');
     Route::apiResources([
-        'tickets/'         => TicketsController::class,
-        'tickets/answers/' => TicketsAnswersController::class,
-        'user/'            => UserController::class,
+        'tickets'                => TicketsController::class,
+        'user'                   => UserController::class,
     ]);
 });
