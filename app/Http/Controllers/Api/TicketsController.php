@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTicketsRequest;
+use App\Http\Requests\Api\UpdateTicketsRequest;
 use App\Http\Resources\Api\TicketsResource;
 use App\Models\Api\Tickets;
 use Illuminate\Http\JsonResponse;
@@ -48,9 +49,25 @@ class TicketsController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateTicketsRequest $request
+     * @param Tickets $ticket
+     * @return JsonResponse|object
+     */
+    public function update(UpdateTicketsRequest $request, Tickets $ticket)
+    {
+        $t=Tickets::find($ticket->id);
+        $t->update($request->all());
+        return (new TicketsResource($t))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    /**
      * @param $id
      * @param Request $request
-     * @return \App\Http\Resources\Api\TicketsResource
+     * @return TicketsResource
      */
     public function answer($id, Request $request) //TODO rewrite
     {
@@ -78,7 +95,6 @@ class TicketsController extends Controller
     public function delete(Tickets $ticket): JsonResponse
     {
         Tickets::findOrFail($ticket->id)->delete();
-
         return response()->json(null, 204);
     }
 

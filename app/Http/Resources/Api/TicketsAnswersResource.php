@@ -7,12 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int    $id
- * @property int    $ticked_id
+ * @property int    $ticket_id
  * @property string $text
  * @property int    $is_true
  * @property string $attachments
  */
-class TicketsAnswers extends JsonResource
+class TicketsAnswersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,7 +25,7 @@ class TicketsAnswers extends JsonResource
         //TODO test return parent::toArray($request);
         return [
             'id'         => $this->id,
-            'ticked_id'  => $this->ticked_id,
+            'ticket_id'  => $this->ticket_id,
             'text'       => $this->text,
             'status'     => $this->is_true,
             'attachments'=> $this->attachments

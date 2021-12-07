@@ -18,7 +18,7 @@ class CreateTicketsAnswersTable extends Migration
             $table->unsignedBigInteger('ticket_id');
             $table->string('text',255);
             $table->boolean('is_true');
-            $table->string('attachment',255)->nullable();
+            $table->string('attachments',255)->nullable();
             $table->timestamps();
         });
     }

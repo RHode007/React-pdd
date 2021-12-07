@@ -7,14 +7,9 @@ use App\Http\Requests\Api\UpdateUserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use GuzzleHttp\Middleware;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\Guard;
-use Laravel\Sanctum\Sanctum;
 
 class UserController extends Controller
 {
@@ -80,7 +75,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * TODO make response
      * @param User $user
      * @return JsonResponse
      */

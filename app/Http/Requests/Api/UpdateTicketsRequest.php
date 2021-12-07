@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTicketsAnswersRequest extends FormRequest
+class UpdateTicketsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class UpdateTicketsAnswersRequest extends FormRequest
     public function rules()
     {
         return [
-            'ticket_id'   => 'required|max:255',
-            'text'        => 'required|max:255',
-            'is_true'     => 'required|max:255',
+            'text' => 'required|max:255',
+            'status' => 'required|max:255',
             'attachments' => 'required|max:255',
         ];
     }

@@ -13,7 +13,7 @@ class StoreTicketsAnswersRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,13 @@ class StoreTicketsAnswersRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'ticket_id'   => 'required|max:255',
+            'text'        => 'required|max:255',
+            'is_true'     => 'required|max:255',
+            'attachments' => 'required|max:255',
         ];
     }
 }
