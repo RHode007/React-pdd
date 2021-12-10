@@ -69,7 +69,7 @@ class TicketsController extends Controller
      * @param StoreUserTicketResultRequest $request
      * @return JsonResponse|object
      */
-    public function answer(StoreUserTicketResultRequest $request) //TODO rewrite
+    public function answer(StoreUserTicketResultRequest $request)
     {
         /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
         $request->validate([

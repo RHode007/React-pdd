@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/answer', [TicketsController::class, 'answer']);
     });
 
-    Route::apiResource('/userticketresults','UserTicketResultController');
+    Route::apiResource('/userticketresults',UserTicketResultController::class);
     Route::apiResources([
         'tickets'                => TicketsController::class,
         'user'                   => UserController::class,
