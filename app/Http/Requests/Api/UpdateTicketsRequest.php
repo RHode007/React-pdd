@@ -24,9 +24,9 @@ class UpdateTicketsRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => 'required|max:255',
-            'status' => 'required|max:255',
-            'attachments' => 'required|max:255',
+            'text' => 'max:255',
+            'status' => 'max:255',
+            'attachments' => 'max:255',
         ];
     }
 }

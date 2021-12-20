@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function isAdminOrCreator($id): bool
     {
-        if ($this->status === 1 || $this->accessToken->tokenable_id === $id) return true;
+        if ($this->status === 1 || isset($this->accessToken->tokenable_id) === $id) return true;
         else return false;
     }
 }

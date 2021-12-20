@@ -31,35 +31,33 @@ class TicketsAnswersController extends Controller
     {
         $TicketAnswer = TicketsAnswers::create($request->all());
         return (new TicketsAnswersResource($TicketAnswer))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param TicketsAnswers $ticketsanswer
+     * @param TicketsAnswers $ticketsanswers
      * @return TicketsAnswersResource
      */
-    public function show(TicketsAnswers $ticketsanswer): TicketsAnswersResource
+    public function show(TicketsAnswers $ticketsanswers): TicketsAnswersResource
     {
-        return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsanswer->id));
+        return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsanswers->id));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateTicketsAnswersRequest $request
-     * @param TicketsAnswers $ticketsanswer
+     * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse|object
      */
-    public function update(UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsanswer)
+    public function update(UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsanswers)
     {
-        $t = TicketsAnswers::find($ticketsanswer->id);
+        $t = TicketsAnswers::find($ticketsanswers->id);
         $t->update($request->all());
         return (new TicketsAnswersResource($t))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
@@ -70,7 +68,6 @@ class TicketsAnswersController extends Controller
      */
     public function destroy(TicketsAnswers $ticketsanswers): JsonResponse
     {
-        TicketsAnswers::findOrFail($ticketsanswers->id)->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => TicketsAnswers::findOrFail($ticketsanswers->id)->delete()?'successful':'fail']);
     }
 }

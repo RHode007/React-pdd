@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * @property string name
@@ -36,10 +36,10 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => 'required', 'string', 'min:3', 'max:255',
-            'email'      => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'password'   => 'required', 'confirmed', Rules\Password::defaults(),
-            'device_name'=> 'required'
+            'name'       => 'required|string|min:1|max:255',
+            'email'      => 'required|string|email|max:255|unique:users',
+            'password'   => ['required', Password::defaults()],
+            'device_name'=> 'required|max:255'
         ];
     }
 }

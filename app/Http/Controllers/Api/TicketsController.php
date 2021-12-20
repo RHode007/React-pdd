@@ -44,8 +44,7 @@ class TicketsController extends Controller
         $ticket = Tickets::create($request->all());
 
         return (new TicketsResource($ticket))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
@@ -60,12 +59,10 @@ class TicketsController extends Controller
         $t=Tickets::find($ticket->id);
         $t->update($request->all());
         return (new TicketsResource($t))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
-     * @param $id
      * @param StoreUserTicketResultRequest $request
      * @return JsonResponse|object
      */
@@ -84,7 +81,7 @@ class TicketsController extends Controller
         $tickets->save();
 
         return new TicketsResource($tickets);*/
-
+        //TODO findOrCreate
         return (new UserTicketResultController())->store($request);
     }
 
@@ -96,8 +93,7 @@ class TicketsController extends Controller
      */
     public function delete(Tickets $ticket): JsonResponse
     {
-        Tickets::findOrFail($ticket->id)->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => Tickets::findOrFail($ticket->id)->delete()?'successful':'fail']);
     }
 
     /**

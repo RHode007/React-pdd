@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password;
 
 /**
  * @property string login
@@ -27,12 +27,12 @@ class AuthRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'login'       => 'string', 'min:3', 'max:255',
-            'password'    =>  Rules\Password::defaults(),'confirmed',
-            'device_name' => 'string', 'min:3', 'max:255',
+            'login'       => 'string|min:3|max:255',
+            'password'    =>  Password::defaults(),
+            'device_name' => 'string|min:3|max:255',
         ];
     }
 }

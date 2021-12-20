@@ -25,9 +25,9 @@ class UpdateTicketsAnswersRequest extends FormRequest
     {
         return [
             'ticket_id'   => 'required|max:255',
-            'text'        => 'required|max:255',
-            'is_true'     => 'required|max:255',
-            'attachments' => 'required|max:255',
+            'text'        => 'max:255',
+            'is_true'     => 'max:255',
+            'attachments' => 'max:255',
         ];
     }
 }

@@ -26,7 +26,7 @@ class StoreTicketsRequest extends FormRequest
         return [
             'text'        => 'required|max:255',
             'status'      => 'required|max:255',
-            'attachments' => 'required|max:255',
+            'attachments' => 'max:255',
         ];
     }
 }

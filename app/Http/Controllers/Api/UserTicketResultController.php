@@ -32,8 +32,7 @@ class UserTicketResultController extends Controller
     {
         $UserTicketResult = UserTicketResult::create($request->all());
         return (new UserTicketResultResource($UserTicketResult))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
@@ -59,8 +58,7 @@ class UserTicketResultController extends Controller
         $utr = UserTicketResult::find($userticketresult->id);
         $utr->update($request->all());
         return (new UserTicketResultResource($utr))
-            ->response()
-            ->setStatusCode(201);
+            ->response();
     }
 
     /**
@@ -71,7 +69,6 @@ class UserTicketResultController extends Controller
      */
     public function destroy(UserTicketResult $userticketresult)
     {
-        UserTicketResult::findOrFail($userticketresult->id)->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => UserTicketResult::findOrFail($userticketresult->id)->delete()?'successful':'fail']);
     }
 }

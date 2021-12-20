@@ -27,7 +27,7 @@ class StoreTicketsAnswersRequest extends FormRequest
             'ticket_id'   => 'required|max:255',
             'text'        => 'required|max:255',
             'is_true'     => 'required|max:255',
-            'attachments' => 'required|max:255',
+            'attachments' => 'max:255',
         ];
     }
 }

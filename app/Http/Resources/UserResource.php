@@ -34,10 +34,11 @@ class UserResource extends JsonResource
             'email'     => $this->email,
             'status'    => $this->status,
         ];
-        if(Auth::user()->isAdminOrCreator($this->id)){
+        if(Auth::user()->isAdminOrCreator($this->id)||$this->new_user===true){
             $result['email_verified_at']    = $this->email_verified_at;
-            $result['password']             = $this->password;
+            //$result['password']             = $this->password;
             $result['api_token']            = $this->api_token;
+            $result['token']                = $this->token;
             $result['reset_key']            = $this->reset_key;
             $result['remember_token']       = $this->remember_token;
         }

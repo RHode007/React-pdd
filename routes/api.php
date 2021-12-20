@@ -25,7 +25,7 @@ Route::group([], function () { //TODO remove api_token?
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    /*TODO make logic here
+    /* TODO make logic here
      * Route::apiResources([
         'tickets' => TicketsController::class,
         'user' => UserController::class,
