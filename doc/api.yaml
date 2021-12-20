@@ -1,0 +1,723 @@
+openapi: 3.0.0
+info:
+  description: ""
+  version: "1.0.0"
+  title: "React pdd"
+  termsOfService: ""
+tags:
+  - name: "User"
+    description: "Operations about user"
+  - name: "Tickets"
+    description: "Access to tickets"
+  - name: "Tickets Answers"
+    description: "Access to tickets answers, WIP"
+  - name: "User Ticket Results"
+    description: "Relationship between user, ticket, answer to answer tests"
+paths:
+  /login:
+    post:
+      tags:
+        - "User"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      parameters:
+        - name: "login"
+          in: "query"
+          description: "The user name for login"
+          required: true
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          description: "The password for login in clear text"
+          required: true
+          schema:
+            type: "string"
+        - name: "device_name"
+          in: "query"
+          description: "Device name for Bearer"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "404":
+          description: "These credentials do not match our records"
+  /register:
+    post:
+      tags:
+        - "User"
+      summary: "Create user"
+      description: ""
+      operationId: "createUser"
+      parameters:
+        - name: "name"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "email"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "device_name"
+          in: "query"
+          description: "Device name for Bearer"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "422":
+          description: "Missing parameter"
+  /user:
+    get:
+      tags:
+        - "User"
+      summary: "Get all users"
+      description: ""
+      operationId: "getAllUsers"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /user/{id}:
+    get:
+      tags:
+        - "User"
+      summary: "Get specific user"
+      description: ""
+      operationId: "getuser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Record not found"
+    post:
+      tags:
+        - "User"
+      summary: "Change user data"
+      operationId: "changeUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "_method"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "name"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "email"
+          in: "query"
+          required: false
+          schema:
+            format: "email"
+            type: "string"
+        - name: "password"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          description: "0=user\n 1=admin"
+          required: false
+          schema:
+            type: "integer"
+        - name: "api_token"
+          in: "query"
+          description: "generate new random token, can be blank"
+          required: false
+          schema:
+            type: "string"
+        - name: "device_name"
+          in: "query"
+          description: "Clear all bearer tokens & Create new"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Record not found"
+    delete:
+      tags:
+        - "User"
+      summary: "Delete user"
+      description: ""
+      operationId: "deleteUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id that needs to be deleted"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful"
+        "404":
+          description: "Record not found"
+  /tickets:
+    get:
+      tags:
+        - "Tickets"
+      summary: "Get all tickets"
+      description: ""
+      operationId: "getAllTickets"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tickets"
+    post:
+      tags:
+        - "Tickets"
+      summary: "Create ticket"
+      description: ""
+      operationId: "createTicket"
+      parameters:
+        - name: "text"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+        - name: "attachments"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tickets"
+        "404":
+          description: "Record not found"
+  /tickets/{id}:
+    get:
+      tags:
+        - "Tickets"
+      summary: "Get specific ticket"
+      description: ""
+      operationId: "getTicket"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tickets"
+        "404":
+          description: "Record not found"
+    post:
+      tags:
+        - "Tickets"
+      summary: "Change ticket data"
+      description: ""
+      operationId: "changeTicket"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "_method"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            default: "PATCH"
+        - name: "text"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "status"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+        - name: "attachments"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tickets"
+        "404":
+          description: "Record not found"
+    delete:
+      tags:
+        - "Tickets"
+      summary: "Delete ticket"
+      description: ""
+      operationId: "deleteTicket"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id that needs to be deleted"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful"
+        "404":
+          description: "Record not found"
+  /tickets/answer:
+    post:
+      tags:
+        - "Tickets"
+      summary: "Set answer to userticketresults"
+      description: ""
+      operationId: "newTicketsAnswer"
+      parameters:
+        - name: "user_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+        - name: "ticket_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+        - name: "answer_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+        "404":
+          description: "Record not found"
+  /tickets/answers:
+    get:
+      tags:
+        - "Tickets Answers"
+      summary: "Get all tickets answers"
+      description: ""
+      operationId: "getAllTicketsAnswers"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+  /tickets/{ticket_id}/answers:
+    get:
+      tags:
+        - "Tickets Answers"
+      summary: "Get all ticket answers"
+      description: ""
+      operationId: "getAllTicketAnswers"
+      parameters:
+        - name: "ticket_id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+    post:
+      tags:
+        - "Tickets Answers"
+      summary: "Create ticket answer"
+      description: ""
+      operationId: "createTicketAnswer"
+      parameters:
+        - name: "ticket_id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "text"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "is_true"
+          in: "query"
+          required: true
+          schema:
+            type: "boolean"
+        - name: "attachments"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+        "404":
+          description: "Record not found"
+  /tickets/{ticket_id}/answers/{id}:
+    get:
+      tags:
+        - "Tickets Answers"
+      summary: "Get specific answer"
+      description: ""
+      operationId: "getTicketAnswer"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "answer id"
+          required: true
+          schema:
+            type: "integer"
+        - name: "ticket_id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+        "404":
+          description: "Record not found"
+    post:
+      tags:
+        - "Tickets Answers"
+      summary: "Change answer data"
+      description: ""
+      operationId: "changeTicketAnswer"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "_method"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            default: "PATCH"
+        - name: "ticket_id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "text"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "is_true"
+          in: "query"
+          required: true
+          schema:
+            type: "boolean"
+        - name: "attachments"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketsAnswers"
+        "404":
+          description: "Record not found"
+    delete:
+      tags:
+        - "Tickets Answers"
+      summary: "Delete answer"
+      description: "This can only be done by admin."
+      operationId: "deleteTicketAnswer"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id that needs to be deleted"
+          required: true
+          schema:
+            type: "integer"
+        - name: "ticket_id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful"
+        "404":
+          description: "Record not found"
+  /userticketresults:
+    get:
+      tags:
+        - "User Ticket Results"
+      summary: "Get all table"
+      description: ""
+      operationId: "getAllUserTicketResults"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserTicketResult"
+  /userticketresults/{id}:
+    get:
+      tags:
+        - "User Ticket Results"
+      summary: "Get specific UserTicketResult"
+      description: ""
+      operationId: "getUserTicketResult"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserTicketResult"
+        "404":
+          description: "Record not found"
+    post:
+      tags:
+        - "User Ticket Results"
+      summary: "Change UserTicketResult data"
+      operationId: "changeUserTicketResult"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "_method"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            default: "PATCH"
+        - name: "user_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+        - name: "ticket_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+        - name: "answer_id"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserTicketResult"
+        "404":
+          description: "Record not found"
+    delete:
+      tags:
+        - "User Ticket Results"
+      summary: "Delete UserTicketResult"
+      description: "This can only be done by admin."
+      operationId: "deleteUserTicketResult"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id that needs to be deleted"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "successful"
+        "404":
+          description: "Record not found"
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  schemas:
+    Tickets:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              format: "int64"
+            text:
+              type: "string"
+            status:
+              type: "string"
+            attachments:
+              type: "string"
+            created_at:
+              type: "string"
+              format: "date-time"
+            updated_at:
+              type: "string"
+              format: "date-time"
+    TicketsAnswers:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              format: "int64"
+            ticket_id:
+              type: "integer"
+              format: "int64"
+            text:
+              type: "string"
+            is_true:
+              type: "boolean"
+            attachments:
+              type: "string"
+    User:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              format: "int64"
+            name:
+              type: "string"
+            email:
+              type: "string"
+              format: "email"
+            email_verified_at:
+              type: "string"
+              description: "Not realized"
+            api_token:
+              type: "string"
+            token:
+              type: "string"
+              description: "Bearer token"
+            reset_key:
+              type: "string"
+              description: "Not realized"
+            remember_key:
+              type: "string"
+              description: "Not realized"
+            created_at:
+              type: "string"
+              format: "date-time"
+            updated_at:
+              type: "string"
+              format: "date-time"
+    UserTicketResult:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+          properties:
+            id:
+              type: "integer"
+              format: "int64"
+            user_id:
+              type: "integer"
+              format: "int64"
+            ticket_id:
+              type: "integer"
+              format: "int64"
+            answer_id:
+              type: "integer"
+              format: "int64"
