@@ -13,6 +13,9 @@ tags:
     description: "Access to tickets answers, WIP"
   - name: "User Ticket Results"
     description: "Relationship between user, ticket, answer to answer tests"
+servers:
+  - url: pdd.cm/api
+    description: Dev server
 paths:
   /login:
     post:
