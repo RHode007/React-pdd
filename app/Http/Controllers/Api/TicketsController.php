@@ -9,6 +9,7 @@ use App\Http\Requests\Api\UpdateTicketsRequest;
 use App\Http\Resources\Api\TicketsResource;
 use App\Models\Api\Tickets;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
@@ -19,7 +20,7 @@ class TicketsController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(Tickets::all());
+        return response()->json(Tickets::paginate((Request::capture()->per_page) ?: 20)); //TODO in future, move per_page in admin page
     }
 
     /**
@@ -43,8 +44,7 @@ class TicketsController extends Controller
     {
         $ticket = Tickets::create($request->all());
 
-        return (new TicketsResource($ticket))
-            ->response();
+        return (new TicketsResource($ticket))->response();
     }
 
     /**
@@ -58,31 +58,7 @@ class TicketsController extends Controller
     {
         $t=Tickets::find($ticket->id);
         $t->update($request->all());
-        return (new TicketsResource($t))
-            ->response();
-    }
-
-    /**
-     * @param StoreUserTicketResultRequest $request
-     * @return JsonResponse|object
-     */
-    public function answer(StoreUserTicketResultRequest $request)
-    {
-        /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
-        $request->validate([
-            'correct' => 'required|boolean'
-        ]);
-
-        $tickets = Tickets::findOrFail($id);
-        $tickets->answers++;
-        $tickets->points = ($request->get('correct')
-            ? $tickets->points + 1
-            : $tickets->points - 1);
-        $tickets->save();
-
-        return new TicketsResource($tickets);*/
-        //TODO findOrCreate
-        return (new UserTicketResultController())->store($request);
+        return (new TicketsResource($t))->response();
     }
 
     /**
@@ -110,4 +86,44 @@ class TicketsController extends Controller
 
         return new TicketsResource($tickets);
     }
+
+    /**
+     * @param StoreUserTicketResultRequest $request
+     * @return JsonResponse|object
+     */
+    public function answer(StoreUserTicketResultRequest $request)
+    {
+        /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
+        $request->validate([
+            'correct' => 'required|boolean'
+        ]);
+
+        $tickets = Tickets::findOrFail($id);
+        $tickets->answers++;
+        $tickets->points = ($request->get('correct')
+            ? $tickets->points + 1
+            : $tickets->points - 1);
+        $tickets->save();
+
+        return new TicketsResource($tickets);*/
+        //TODO findOrCreate
+        return (new UserTicketResultController())->store($request);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAll(): JsonResponse
+    {
+        return response()->json(Tickets::all());
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getRandom(): JsonResponse
+    {
+        return response()->json(Tickets::inRandomOrder()->limit(5)->get());
+    }
+
 }

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,4 +31,4 @@ require __DIR__.'/auth.php';
 Route::group(['middleware' => 'auth', 'namespace' => 'Http'], function () {
 
     //Route::resource('tickets', 'TicketsController');
-});
+});*/

@@ -6,19 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTicketsAnswersRequest;
 use App\Http\Requests\Api\UpdateTicketsAnswersRequest;
 use App\Http\Resources\Api\TicketsAnswersResource;
+use App\Models\Api\Tickets;
 use App\Models\Api\TicketsAnswers;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNull;
 
 class TicketsAnswersController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param $ticket_id
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index($ticket_id): JsonResponse
     {
-        return response()->json(TicketsAnswers::all());
+        //TODO Get param from request, choose pagin(number)||random(20)||all
+        //default all or pagin(numb)?
+        //TODO ask how paginat should response
+        if (Request::capture()->has('random')) {
+            return response()->json('its random');
+        }
+        if (Request::capture()->has('page')) {
+            return response()->json(TicketsAnswers::where('ticket_id','=',$ticket_id)->get());
+        }
+        return response()->json(TicketsAnswers::paginate(4));
     }
 
     /**
@@ -30,19 +43,19 @@ class TicketsAnswersController extends Controller
     public function store(StoreTicketsAnswersRequest $request)
     {
         $TicketAnswer = TicketsAnswers::create($request->all());
-        return (new TicketsAnswersResource($TicketAnswer))
-            ->response();
+        return (new TicketsAnswersResource($TicketAnswer))->response();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param TicketsAnswers $ticketsanswers
+     * @param $ticket_id
+     * @param $id
      * @return TicketsAnswersResource
      */
-    public function show(TicketsAnswers $ticketsanswers): TicketsAnswersResource
+    public function show($ticket_id, $id): TicketsAnswersResource
     {
-        return new TicketsAnswersResource(TicketsAnswers::findOrFail($ticketsanswers->id));
+        return new TicketsAnswersResource(TicketsAnswers::where('ticket_id','=',$ticket_id)->findOrFail($id));
     }
 
     /**
@@ -52,7 +65,7 @@ class TicketsAnswersController extends Controller
      * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse|object
      */
-    public function update(UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsanswers)
+    public function update($ticket_id, UpdateTicketsAnswersRequest $request, TicketsAnswers $ticketsanswers)
     {
         $t = TicketsAnswers::find($ticketsanswers->id);
         $t->update($request->all());
@@ -66,8 +79,25 @@ class TicketsAnswersController extends Controller
      * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse
      */
-    public function destroy(TicketsAnswers $ticketsanswers): JsonResponse
+    public function destroy($ticket_id, TicketsAnswers $ticketsanswers): JsonResponse
     {
         return response()->json(['message' => TicketsAnswers::findOrFail($ticketsanswers->id)->delete()?'successful':'fail']);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAll(): JsonResponse
+    {
+        return response()->json(TicketsAnswers::all());
+    }
+
+    /**
+     * @param $ticket_id
+     * @return JsonResponse
+     */
+    public function getRandom($ticket_id): JsonResponse
+    {
+        return response()->json(TicketsAnswers::inRandomOrder()->where('ticket_id','=',$ticket_id)->limit(5)->get());
     }
 }

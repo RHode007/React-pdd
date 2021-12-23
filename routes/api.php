@@ -18,29 +18,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([], function () { //TODO remove api_token?
+Route::group([], function () {
     Route::post('/login', [AuthController::class, 'loginUser']);
     Route::post('/register', [AuthController::class, 'registerUser']);
 });
 
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
-
-    /* TODO make logic here
-     * Route::apiResources([
-        'tickets' => TicketsController::class,
-        'user' => UserController::class,
-    ], ['only' => ['index', 'show','update']]);
-
-    Route::apiResource('/tickets', TicketsController::class,['only'=>['update','store']])->middleware('admin');*/
-
     Route::group(['prefix' => 'tickets'], function () {
-        Route::apiResource('answers', TicketsAnswersController::class)->parameter('answers','ticketsanswers');
-        Route::post('/answer', [TicketsController::class, 'answer']);
-    });
+        Route::apiResource('/',TicketsController::class);
+        Route::get('/getAll', [TicketsController::class, 'getAll']);
+        Route::get('/getRandom', [TicketsController::class, 'getRandom']);
 
+        Route::get('{tickets}/answers/getRandom', [TicketsAnswersController::class, 'getRandom']); //TODO rework
+    });
+    Route::apiResource('ticket.answers', TicketsAnswersController::class)->parameter('answers','ticketsanswers');
     Route::apiResource('/userticketresults',UserTicketResultController::class);
-    Route::apiResources([
-        'tickets'                => TicketsController::class,
-        'user'                   => UserController::class,
-    ]);
+    Route::apiResource('/user',UserController::class);
 });

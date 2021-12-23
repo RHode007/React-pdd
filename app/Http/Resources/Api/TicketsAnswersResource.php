@@ -27,7 +27,7 @@ class TicketsAnswersResource extends JsonResource
             'id'         => $this->id,
             'ticket_id'  => $this->ticket_id,
             'text'       => $this->text,
-            'is_true'     => $this->is_true,
+            'is_true'    => $this->is_true,
             'attachments'=> $this->attachments
         ];
     }
