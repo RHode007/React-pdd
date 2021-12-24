@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreUserTicketResultRequest;
 use App\Http\Requests\Api\UpdateUserTicketResultRequest;
 use App\Http\Resources\Api\UserTicketResultResource;
+use App\Models\Api\Tickets;
 use App\Models\Api\UserTicketResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -31,8 +32,7 @@ class UserTicketResultController extends Controller
     public function store(StoreUserTicketResultRequest $request)
     {
         $UserTicketResult = UserTicketResult::create($request->all());
-        return (new UserTicketResultResource($UserTicketResult))
-            ->response();
+        return (new UserTicketResultResource($UserTicketResult))->response();
     }
 
     /**
@@ -57,8 +57,7 @@ class UserTicketResultController extends Controller
     {
         $utr = UserTicketResult::find($userticketresult->id);
         $utr->update($request->all());
-        return (new UserTicketResultResource($utr))
-            ->response();
+        return (new UserTicketResultResource($utr))->response();
     }
 
     /**
@@ -71,4 +70,32 @@ class UserTicketResultController extends Controller
     {
         return response()->json(['message' => UserTicketResult::findOrFail($userticketresult->id)->delete()?'successful':'fail']);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param UserTicketResult $userticketresult
+     * @return JsonResponse
+     */
+    public function getScore($ticket_id, UserTicketResult $userticketresult)
+    {
+        /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
+        $request->validate([
+            'correct' => 'required|boolean'
+        ]);
+
+        $tickets = Tickets::findOrFail($id);
+        $tickets->answers++;
+        $tickets->points = ($request->get('correct')
+            ? $tickets->points + 1
+            : $tickets->points - 1);
+        $tickets->save();
+
+        return new TicketsResource($tickets);*/
+        $tickets = Tickets::findOrFail($ticket_id);
+
+
+        return response()->json(['message' => UserTicketResult::findOrFail($userticketresult->id)->delete()?'successful':'fail']);
+    }
+
 }

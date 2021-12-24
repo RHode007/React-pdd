@@ -22,15 +22,6 @@ class TicketsAnswersController extends Controller
      */
     public function index($ticket_id): JsonResponse
     {
-        //TODO Get param from request, choose pagin(number)||random(20)||all
-        //default all or pagin(numb)?
-        //TODO ask how paginat should response
-        if (Request::capture()->has('random')) {
-            return response()->json('its random');
-        }
-        if (Request::capture()->has('page')) {
-            return response()->json(TicketsAnswers::where('ticket_id','=',$ticket_id)->get());
-        }
         return response()->json(TicketsAnswers::paginate(4));
     }
 
@@ -61,6 +52,7 @@ class TicketsAnswersController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param $ticket_id
      * @param UpdateTicketsAnswersRequest $request
      * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse|object
@@ -69,13 +61,13 @@ class TicketsAnswersController extends Controller
     {
         $t = TicketsAnswers::find($ticketsanswers->id);
         $t->update($request->all());
-        return (new TicketsAnswersResource($t))
-            ->response();
+        return (new TicketsAnswersResource($t))->response();
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param $ticket_id
      * @param TicketsAnswers $ticketsanswers
      * @return JsonResponse
      */
@@ -98,6 +90,6 @@ class TicketsAnswersController extends Controller
      */
     public function getRandom($ticket_id): JsonResponse
     {
-        return response()->json(TicketsAnswers::inRandomOrder()->where('ticket_id','=',$ticket_id)->limit(5)->get());
+        return response()->json(TicketsAnswers::inRandomOrder()->where('ticket_id','=',$ticket_id)->limit(4)->get());
     }
 }

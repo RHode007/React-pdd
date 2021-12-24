@@ -73,20 +73,10 @@ class UserController extends Controller
             $request['api_token'] = Str::random(60);
         }
         $u->update($request->all());
-        if ($request->request->has('device_name')) { //add token attribute after update or error
+        if ($request->request->has('device_name')) {
             $u->tokens()->delete();
             $u['token'] = $u->createToken($request->device_name)->plainTextToken;
         }
-        /*if ($request->request->has('token')) { TODO change token
-            $user->tokens()->delete();
-            $token = $user->createToken($request->device_name)->plainTextToken;
-            $request['token'] = $user->withAccessToken($token);
-        }
-
-        //$rtg=$user->tokens()->get();
-        //$rtg=$user->tokens()->where('tokenenable_id','=','4'); //need to delete old where(tokenenable_id=curentUserToken)
-        */
-
 
         return (new UserResource($u))->response();
     }

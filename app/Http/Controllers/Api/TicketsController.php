@@ -93,19 +93,7 @@ class TicketsController extends Controller
      */
     public function answer(StoreUserTicketResultRequest $request)
     {
-        /*$request->merge(['correct' => (bool) json_decode($request->get('correct'))]);
-        $request->validate([
-            'correct' => 'required|boolean'
-        ]);
 
-        $tickets = Tickets::findOrFail($id);
-        $tickets->answers++;
-        $tickets->points = ($request->get('correct')
-            ? $tickets->points + 1
-            : $tickets->points - 1);
-        $tickets->save();
-
-        return new TicketsResource($tickets);*/
         //TODO findOrCreate
         return (new UserTicketResultController())->store($request);
     }

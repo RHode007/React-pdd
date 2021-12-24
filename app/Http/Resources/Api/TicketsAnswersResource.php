@@ -20,9 +20,11 @@ class TicketsAnswersResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
+
     public function toArray($request): array
     {
-        //TODO test return parent::toArray($request);
+
+        //return parent::toArray($request)->paginate(2);
         return [
             'id'         => $this->id,
             'ticket_id'  => $this->ticket_id,

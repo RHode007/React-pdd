@@ -25,14 +25,14 @@ Route::group([], function () {
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::group(['prefix' => 'tickets'], function () {
-        Route::apiResource('/',TicketsController::class);
-        Route::get('/getAll', [TicketsController::class, 'getAll']);
-        Route::get('/getRandom', [TicketsController::class, 'getRandom']);
+    Route::group([], function () {
+        Route::apiResource('tickets',TicketsController::class);
+        Route::get('tickets/getAll', [TicketsController::class, 'getAll']);
+        Route::get('tickets/getRandom', [TicketsController::class, 'getRandom']);
 
-        Route::get('{tickets}/answers/getRandom', [TicketsAnswersController::class, 'getRandom']); //TODO rework
+        Route::get('tickets/{tickets}/answers/getRandom', [TicketsAnswersController::class, 'getRandom']);
     });
-    Route::apiResource('ticket.answers', TicketsAnswersController::class)->parameter('answers','ticketsanswers');
+    Route::apiResource('tickets.answers', TicketsAnswersController::class)->parameter('answers','ticketsanswers');
     Route::apiResource('/userticketresults',UserTicketResultController::class);
     Route::apiResource('/user',UserController::class);
 });
